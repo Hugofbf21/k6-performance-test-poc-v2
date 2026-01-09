@@ -10,21 +10,24 @@ jobs:
   k6-perf:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:17-alpine
-        env:
-          POSTGRES_DB: performance_db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Start PostgreSQL with Docker Compose
+        run: docker-compose up -d
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          for i in {1..30}; do
+            if docker-compose exec -T postgres pg_isready -U postgres > /dev/null 2>&1; then
+              echo "PostgreSQL is ready";
+              exit 0;
+            fi;
+            echo "Waiting for PostgreSQL...";
+            sleep 2;
+          done
+          echo "PostgreSQL did not start in time" && exit 1
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -75,3 +78,6 @@ jobs:
             kill $(cat app.pid) || true
           fi
 
+      - name: Stop Docker Compose
+        if: always()
+        run: docker-compose down -v
