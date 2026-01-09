@@ -16,6 +16,8 @@ jobs:
 
       - name: Start PostgreSQL with Docker Compose
         run: docker compose up -d
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Wait for PostgreSQL to be ready
         run: |
