@@ -6,32 +6,10 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <changeSet id="002-insert-sample-products" author="performance-poc">
-        <insert tableName="products">
-            <column name="name" value="Laptop"/>
-            <column name="description" value="High-performance laptop for developers"/>
-            <column name="price" valueNumeric="1299.99"/>
-            <column name="quantity" valueNumeric="10"/>
-            <column name="created_at" valueDate="now()"/>
-            <column name="updated_at" valueDate="now()"/>
-        </insert>
-
-        <insert tableName="products">
-            <column name="name" value="Wireless Mouse"/>
-            <column name="description" value="Ergonomic wireless mouse"/>
-            <column name="price" valueNumeric="29.99"/>
-            <column name="quantity" valueNumeric="50"/>
-            <column name="created_at" valueDate="now()"/>
-            <column name="updated_at" valueDate="now()"/>
-        </insert>
-
-        <insert tableName="products">
-            <column name="name" value="Mechanical Keyboard"/>
-            <column name="description" value="RGB mechanical keyboard with blue switches"/>
-            <column name="price" valueNumeric="149.99"/>
-            <column name="quantity" valueNumeric="25"/>
-            <column name="created_at" valueDate="now()"/>
-            <column name="updated_at" valueDate="now()"/>
-        </insert>
+        <sqlFile path="db/sql/002-insert-sample-products.sql"
+                 relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
 
         <rollback>
             <delete tableName="products">
