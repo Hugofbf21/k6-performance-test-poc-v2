@@ -3,7 +3,7 @@ import { sleep, check } from 'k6';
 
 // test configuration
 export const options = {
-    vus: 100, // simulate concurrent virtual users
+    vus: 400, // simulate concurrent virtual users
     duration: '30s',
 
     thresholds: {
