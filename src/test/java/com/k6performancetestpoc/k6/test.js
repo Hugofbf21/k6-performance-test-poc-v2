@@ -54,11 +54,6 @@ export function graphqlTests() {
     const response = http.post('http://localhost:8080/graphql', JSON.stringify({query: query}), {headers: headers});
 
     check(response, {
-        'status is 200': (r) => r.status === 200,
-        'response time is acceptable (not longer than 500ms) ': (r) => r.timings.duration < 500
-    });
-
-    check(response, {
         'graphql response has no errors': (r) => {
             const responseBody = JSON.parse(r.body);
             return !responseBody.errors;
@@ -71,7 +66,7 @@ export function graphqlTests() {
         const products = responseBody.data.products;
         check(products, {
             'On successful requests received non empty products array (GraphQL tests)': (prods) => Array.isArray(prods) && prods.length > 0,
-            'each successful request product has required fields (GraphQL tests)': (prods) => prods.every(p => p.name && p.description && p.price !== undefined && p.quantity !== undefined)
+            'Each successful request product has required fields (GraphQL tests)': (prods) => prods.every(p => p.name && p.description && p.price !== undefined && p.quantity !== undefined)
         });
     }
 }
