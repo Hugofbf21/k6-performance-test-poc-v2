@@ -1,0 +1,12 @@
+scalar Long
+
+type Query {
+    products: [Product!]!
+}
+
+type Product {
+    name: String!
+    description: String!
+    price: Float!
+    quantity: Int!
+}
