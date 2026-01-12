@@ -58,4 +58,14 @@ export function graphqlTests() {
     });
 
     sleep(1);
+    const responseBody = JSON.parse(response.body);
+    if (responseBody.data && responseBody.data.products) {
+        const products = responseBody.data.products;
+        check(products, {
+            'received products array (GraphQL tests)': (prods) => Array.isArray(prods) && prods.length > 0,
+            'each product has required fields (GraphQL tests)': (prods) => prods.every(p => p.name && p.description && p.price !== undefined && p.quantity !== undefined)
+        });
+    } else {
+        check(false, { 'response has products data': false });
+    }
 }
