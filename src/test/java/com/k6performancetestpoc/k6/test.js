@@ -17,13 +17,13 @@ export const options = {
             executor: 'constant-vus',
             exec: 'httpTests',
             vus: 200,
-            duration: '30s',
+            duration: '10s',
         },
         graphql_200: {
             executor: 'constant-vus',
             exec: 'graphqlTests',
             vus: 200,
-            duration: '30s',
+            duration: '10s',
         }
     },
     thresholds: {
