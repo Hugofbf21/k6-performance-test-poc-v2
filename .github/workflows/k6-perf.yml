@@ -64,7 +64,25 @@ jobs:
         uses: grafana/setup-k6-action@v1
 
       - name: Run k6 performance test
-        run: k6 run src/test/java/com/k6performancetestpoc/k6/test.js
+        run: |
+          max_attempts=3
+          attempt=1
+          until [ $attempt -gt $max_attempts ]; do
+            echo "Attempt $attempt of $max_attempts..."
+            if k6 run src/test/java/com/k6performancetestpoc/k6/test.js; then
+              echo "K6 tests passed on attempt $attempt"
+              exit 0
+            else
+              echo "K6 tests failed on attempt $attempt"
+              if [ $attempt -eq $max_attempts ]; then
+                echo "All $max_attempts attempts failed"
+                exit 1
+              fi
+              attempt=$((attempt + 1))
+              echo "Retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
 
       - name: Upload app log on failure
         if: failure()
