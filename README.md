@@ -129,23 +129,14 @@ The workflow performs the following steps:
 2. **Start PostgreSQL** - Launches PostgreSQL using Docker Compose
 3. **Wait for Database** - Ensures PostgreSQL is ready before proceeding
 4. **Set up JDK 21** - Configures Java 21 with Temurin distribution
-5. **Build and Test** - Runs Maven verify to execute unit tests (retries up to 3 times on failure)
+5. **Build and Test** - Runs Maven verify to execute unit tests
 6. **Package Application** - Creates the JAR file
 7. **Start Spring Boot** - Launches the application in the background
 8. **Wait for Application** - Ensures the API is ready
 9. **Set up K6** - Installs K6 load testing tool
-10. **Run Performance Tests** - Executes the K6 test suite (retries up to 3 times on failure)
+10. **Run Performance Tests** - Executes the K6 test suite
 11. **Upload Logs** - Saves application logs if tests fail
 12. **Cleanup** - Stops the application and Docker containers
-
-### Test Retry Strategy
-
-The workflow includes automatic retry logic for critical test steps using bash loops:
-
-- **Maven Tests**: Automatically retries up to 3 times if tests fail (with 5-second delay between attempts)
-- **K6 Performance Tests**: Automatically retries up to 3 times if performance tests fail (with 5-second delay between attempts)
-
-Each retry attempt provides clear logging of which attempt is running and whether it passed or failed. This retry mechanism helps handle transient failures and ensures more reliable CI/CD pipelines.
 
 ### Triggering the Workflow
 
