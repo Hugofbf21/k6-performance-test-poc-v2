@@ -16,8 +16,15 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductRequest> getAllProducts() {
+        return productRepository.findAll().stream().map(
+                product -> new ProductRequest(
+                        product.getName(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getQuantity()
+                )
+        ).toList();
     }
 
     public Optional<Product> getProductById(Long id) {
