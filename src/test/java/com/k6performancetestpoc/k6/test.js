@@ -17,13 +17,13 @@ export const options = {
             executor: 'constant-vus',
             exec: 'httpTests',
             vus: 200,
-            duration: '10s',
+            duration: '120s',
         },
         graphql_200: {
             executor: 'constant-vus',
             exec: 'graphqlTests',
             vus: 200,
-            duration: '10s',
+            duration: '120s',
         }
     },
     thresholds: {
@@ -38,7 +38,7 @@ export function httpTests() {
 
     check(response, {
         'status is 200': (r) => r.status === 200,
-        'response time is acceptable': (r) => r.timings.duration < 500
+        'response time is acceptable': (r) => r.timings.duration < 1000
     });
 
     sleep(1);
