@@ -13,17 +13,25 @@ const query = `
 
 export const options = {
     scenarios: {
+        smoke_test: {
+            executor: 'constant-vus',
+            exec: 'graphqlTests',
+            vus: 1,
+            duration: '10s',
+        },
         http_200: {
             executor: 'constant-vus',
             exec: 'httpTests',
             vus: 200,
-            duration: '120s',
+            duration: '60s',
+            startTime: '10s',
         },
         graphql_200: {
             executor: 'constant-vus',
             exec: 'graphqlTests',
             vus: 200,
-            duration: '120s',
+            duration: '60s',
+            startTime: '10s',
         }
     },
     thresholds: {

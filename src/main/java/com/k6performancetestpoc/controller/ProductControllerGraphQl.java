@@ -23,8 +23,7 @@ public class ProductControllerGraphQl {
     @QueryMapping
     Collection<ProductRequest> products() {
         // 1% chance of throwing an error
-        if (random.nextInt(100) < 1) {
-            System.out.println("Throwing random error");
+        if (random.nextInt(200) < 1) {
             throw new IllegalCallerException("Random error occurred while fetching products");
         }
         return productService.getAllProducts();
