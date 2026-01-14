@@ -20,17 +20,25 @@ export const options = {
             duration: '20s',
         },
         http_200: {
-            executor: 'constant-vus',
+            executor: 'ramping-vus',
             exec: 'httpTests',
-            vus: 200,
-            duration: '120s',
+            startVus: 0,
+            stages: [
+                { duration: '30s', target: 100 }, // ramp up to 100 VUs over 30 seconds
+                { duration: '80s', target: 100 }, // stay at 100 VUs for 80 seconds
+                { duration: '10s', target: 0 },   // ramp down to 0 VUs over 30 seconds
+            ],
             startTime: '20s',
         },
         graphql_200: {
-            executor: 'constant-vus',
+            executor: 'ramping-vus',
             exec: 'graphqlTests',
-            vus: 200,
-            duration: '120s',
+            startVus: 0,
+            stages: [
+                { duration: '30s', target: 100 }, // ramp up to 100 VUs over 30 seconds
+                { duration: '80s', target: 100 }, // stay at 100 VUs for 80 seconds
+                { duration: '10s', target: 0 },   // ramp down to 0 VUs over 30 seconds
+            ],
             startTime: '20s',
         }
     },
