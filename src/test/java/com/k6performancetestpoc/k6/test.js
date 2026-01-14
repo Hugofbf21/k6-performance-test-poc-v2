@@ -23,14 +23,14 @@ export const options = {
             executor: 'constant-vus',
             exec: 'httpTests',
             vus: 200,
-            duration: '60s',
+            duration: '120s',
             startTime: '20s',
         },
         graphql_200: {
             executor: 'constant-vus',
             exec: 'graphqlTests',
             vus: 200,
-            duration: '60s',
+            duration: '120s',
             startTime: '20s',
         }
     },
