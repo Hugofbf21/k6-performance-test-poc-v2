@@ -27,8 +27,7 @@ export const options = {
                 { duration: '20s', target: 100 }, // ramp up to 100 VUs over 30 seconds
                 { duration: '90s', target: 100 }, // stay at 100 VUs for 90 seconds
                 { duration: '10s', target: 0 },   // ramp down to 0 VUs over 10 seconds
-            ],
-            startTime: '20s',
+            ]
         },
         graphql_200: {
             executor: 'ramping-vus',
@@ -38,8 +37,7 @@ export const options = {
                 { duration: '20s', target: 100 }, // ramp up to 100 VUs over 30 seconds
                 { duration: '90s', target: 100 }, // stay at 100 VUs for 80 seconds
                 { duration: '10s', target: 0 },   // ramp down to 0 VUs over 10 seconds
-            ],
-            startTime: '20s',
+            ]
         }
     },
     thresholds: {
