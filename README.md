@@ -90,29 +90,55 @@ k6 run src/test/java/com/k6performancetestpoc/k6/test.js
 
 ### Test Configuration
 
-The K6 script includes two test scenarios running concurrently:
+The K6 script includes three test scenarios:
 
-- **HTTP REST API Test**
-  - 200 virtual users
-  - 30-second duration
-  - Tests GET `/api/products` endpoint
+#### 1. Smoke Test
+- **Executor**: Constant VUs
+- **Virtual Users**: 20
+- **Duration**: 20 seconds
+- **Endpoint**: GET `/api/products`
+- **Purpose**: Quick validation that the system works under minimal load
 
-- **GraphQL API Test**
-  - 200 virtual users
-  - 30-second duration
-  - Tests GraphQL products query
+#### 2. HTTP REST API Load Test
+- **Executor**: Ramping VUs
+- **Virtual Users**: 0 → 100 (ramp up over 20s) → 100 (steady for 90s) → 0 (ramp down over 10s)
+- **Total Duration**: 120 seconds
+- **Endpoint**: GET `/api/products`
+- **Purpose**: Test REST API performance under sustained load
+
+#### 3. GraphQL API Load Test
+- **Executor**: Ramping VUs
+- **Virtual Users**: 0 → 100 (ramp up over 20s) → 100 (steady for 90s) → 0 (ramp down over 10s)
+- **Total Duration**: 120 seconds
+- **Endpoint**: POST `/graphql` (products query)
+- **Purpose**: Test GraphQL API performance under sustained load
 
 ### Performance Thresholds
 
-- **95th percentile response time**: < 200ms
-- **Request failure rate**: < 1%
+The test enforces the following thresholds:
+
+- **Smoke Test**: 95th percentile response time < 500ms
+- **Load Tests**: 95th percentile response time < 200ms AND max response time < 1000ms
+- **Request Failure Rate**: < 1% across all requests
+- **GraphQL Errors**: < 1% of GraphQL requests should contain errors
+
+### Checks and Validations
+
+The test performs the following checks:
+
+- HTTP status code validation (200 OK)
+- Response time validation
+- GraphQL error checking
+- Non-empty product arrays on successful requests
+- Product field validation (name, description, price, quantity)
 
 ### Sample K6 Output
 
 ```
-scenarios: (100.00%) 2 scenarios, 400 max VUs, 1m0s max duration
-  ✓ http_200    [======================================] 200 VUs  30s
-  ✓ graphql_200 [======================================] 200 VUs  30s
+scenarios: (100.00%) 3 scenarios, 220 max VUs, 2m10s max duration
+  ✓ smoke_test   [======================================]  20 VUs   20s
+  ✓ http_200     [======================================] 100 VUs  120s
+  ✓ graphql_200  [======================================] 100 VUs  120s
 ```
 
 ## 🔄 CI/CD Pipeline
